@@ -1,4 +1,4 @@
-import type { BotCommand } from "../Interfaces";
+import type { BotCommand } from "../Interfaces/index.ts";
 
 export const command: BotCommand = {
     name: "echo",

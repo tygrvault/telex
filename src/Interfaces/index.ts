@@ -1,1 +1,1 @@
-export * from "./BotCommand";
+export * from "./BotCommand.ts";

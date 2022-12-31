@@ -1,6 +1,6 @@
-import { Context, NarrowedContext } from "telegraf";
-import { MaybeArray } from "telegraf/typings/util";
-import { Message, Update } from "typegram";
+import { Context, NarrowedContext } from "npm:telegraf";
+import { MaybeArray } from "npm:telegraf/typings/util";
+import { Message, Update } from "npm:typegram";
 
 interface Run {
     (
