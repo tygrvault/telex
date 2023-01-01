@@ -6,6 +6,7 @@ export const command: BotCommand = {
     run: (ctx) => {
         const message = ctx.message.text.split(" ").slice(1).join(" ");
         if (!message) return ctx.reply("You need to provide a message to echo.");
+        ctx.deleteMessage();
         ctx.reply(message);
     }
 }

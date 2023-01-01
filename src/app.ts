@@ -3,16 +3,31 @@ import { Update } from "npm:typegram";
 import * as path from "https://deno.land/std@0.170.0/path/mod.ts";
 import { config } from "https://deno.land/x/dotenv@v3.2.0/mod.ts";
 import { BotCommand } from "./Interfaces/BotCommand.ts";
+import { Database } from 'https://deno.land/x/aloedb@0.9.0/mod.ts'
 
 config({ export: true });
 
+function getPath(location: string) {
+    return path.join(new URL(".", import.meta.url).pathname, location).slice(1);
+}
+
+const db = new Database(getPath("Database/Settings.json"));
+
 const bot: Telegraf<Context<Update>> = new Telegraf(Deno.env.get("BOT_TOKEN") as string);
+
+bot.use(async (ctx, next) => {
+    const start = new Date().getMilliseconds();
+    await next()
+    const ms = new Date().getMilliseconds() - start;
+    console.log(`Response time: %sms`, ms)
+});
+
 const commandPath = path.join(new URL('.', import.meta.url).pathname, "/Commands").slice(1);
 
 for (const file of Deno.readDirSync(commandPath)) {
     const { command }: { command: BotCommand } = await import(`./Commands/${file.name}`);
     console.log("Loaded command: " + command.name);
-    bot.command(command.name, (ctx) => command.run(ctx));
+    bot.command(command.name, (ctx) => command.run(ctx, db));
 }
 
 bot.launch();
