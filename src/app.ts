@@ -6,7 +6,8 @@ import { config } from "https://deno.land/x/dotenv@v3.2.0/mod.ts";
 config({ export: true });
 
 const bot: Telegraf<Context<Update>> = new Telegraf(Deno.env.get("BOT_TOKEN") as string);
-const commandPath = path.join(new URL('.', import.meta.url).pathname, "/Commands").slice(1);
+let commandPath = path.join(new URL('.', import.meta.url).pathname, "/Commands");
+if (Deno.build.os === "windows") commandPath = commandPath.slice(1);
 
 for (const file of Deno.readDirSync(commandPath)) {
     const { command } = await import(`./Commands/${file.name}`);
