@@ -1,3 +1,4 @@
+import { Database } from "https://deno.land/x/aloedb@0.9.0/mod.ts";
 import { Context, NarrowedContext } from "npm:telegraf";
 import { MaybeArray } from "npm:telegraf/typings/util";
 import { Message, Update } from "npm:typegram";
@@ -8,6 +9,7 @@ interface Run {
             message: Update.New & Update.NonChannel & Message.TextMessage;
             update_id: number;
         }>,
+        db: Database
     ): void;
 }
 
