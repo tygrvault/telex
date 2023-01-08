@@ -14,15 +14,8 @@ function getPath(location: string) {
 const db = new Database(getPath("Database/Settings.json"));
 
 const bot: Telegraf<Context<Update>> = new Telegraf(Deno.env.get("BOT_TOKEN") as string);
-
-bot.use(async (ctx, next) => {
-    const start = new Date().getMilliseconds();
-    await next()
-    const ms = new Date().getMilliseconds() - start;
-    console.log(`Response time: %sms`, ms)
-});
-
-const commandPath = path.join(new URL('.', import.meta.url).pathname, "/Commands").slice(1);
+let commandPath = path.join(new URL('.', import.meta.url).pathname, "/Commands");
+if (Deno.build.os === "windows") commandPath = commandPath.slice(1);
 
 for (const file of Deno.readDirSync(commandPath)) {
     const { command }: { command: BotCommand } = await import(`./Commands/${file.name}`);
