@@ -5,6 +5,7 @@ A telegram bot boilerplate.
 ## Tech Stack
 - Framework: [Telegraph.js](https://telegrafjs.org/#/)
 - Runtime: [Deno](https://deno.land)
+- Database: [AloeDB](https://github.com/Kirlovon/AloeDB)
 
 ## Getting started
 ```sh
